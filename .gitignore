@@ -1,0 +1,6 @@
+components/
+coverage/
+lib/
+node_modules/
+templates/
+.nyc_output

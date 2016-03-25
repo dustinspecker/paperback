@@ -1,0 +1,55 @@
+{
+  "name": "paperback",
+  "version": "0.0.0",
+  "description": "Easily generate files from templates",
+  "main": "lib/index.js",
+  "scripts": {
+    "compile": "babel src --out-dir lib",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ./ --ignore-pattern node_modules/ --ignore-pattern lib",
+    "test": "npm run lint && npm run compile && nyc ava"
+  },
+  "repository": "dustinspecker/paperback",
+  "keywords": [],
+  "author": {
+    "name": "Dustin Specker",
+    "email": "DustinSpecker@DustinSpecker.com",
+    "url": "github.com/dustinspecker"
+  },
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "ava": "^0.13.0",
+    "babel-cli": "^6.4.0",
+    "babel-eslint": "^6.0.0-beta.6",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.4.3",
+    "coveralls": "^2.11.6",
+    "eslint": "^2.4.0",
+    "eslint-config-dustinspecker": "^0.4.1",
+    "eslint-plugin-no-use-extend-native": "^0.3.1",
+    "nyc": "^6.1.1"
+  },
+  "ava": {
+    "files": [
+      "tests/test.js"
+    ],
+    "require": [
+      "babel-register"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "tests"
+    ]
+  },
+  "dependencies": {
+    "inquirer": "^0.12.0",
+    "lodash": "^4.6.1",
+    "mkdirp": "^0.5.1",
+    "pify": "^2.3.0",
+    "yargs": "^4.3.2"
+  }
+}
