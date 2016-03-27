@@ -36,10 +36,11 @@ const replaceFileNameWithVar = fileName => {
   return name
 }
 
-// create promptsFile path
-const promptsFile = join(process.cwd(), 'templates', templatePath, 'prompts.js')
 // ask questions from prompts.js
 new Promise(resolve => {
+  // create promptsFile path
+  const promptsFile = join(process.cwd(), 'templates', templatePath, 'prompts.js')
+
   /* eslint-disable global-require */
   inquirer.prompt(require(promptsFile), results => resolve(results))
   /* eslint-enable global-require */
