@@ -13,11 +13,11 @@ import {readdir, readFile, writeFile} from 'fs'
  *    tests/
  *      components/
  *        __name___test.js
- *        prompts.json
+ *        prompts.js
  *    components/
  *      __name__.js
  *      __name__.html
- *      prompts.json
+ *      prompts.js
  */
 
 const {_: args} = argv
@@ -36,23 +36,21 @@ const replaceFileNameWithVar = fileName => {
   return name
 }
 
-// read prompts for template
-pify(readFile)(join('templates', templatePath, 'prompts.json'))
-  .then(fileContents => {
-    const prompts = JSON.parse(fileContents.toString())
-
-    // ask questions from prompts.json
-    return new Promise(resolve => {
-      inquirer.prompt(prompts, results => resolve(results))
-    })
-  })
+// create promptsFile path
+const promptsFile = join(process.cwd(), 'templates', templatePath, 'prompts.js')
+// ask questions from prompts.js
+new Promise(resolve => {
+  /* eslint-disable global-require */
+  inquirer.prompt(require(promptsFile), results => resolve(results))
+  /* eslint-enable global-require */
+})
   .then(promptResults => {
     answers = promptResults
     return pify(mkdirp)(replaceFileNameWithVar(templatePath))
   })
   .then(() => pify(readdir)(join('templates', templatePath)))
   .then(fileNames => {
-    files = fileNames.filter(fileName => fileName !== 'prompts.json')
+    files = fileNames.filter(fileName => fileName !== 'prompts.js')
     return Promise.all(files.map(fileName =>
       pify(readFile)(join('templates', templatePath, fileName))
     ))

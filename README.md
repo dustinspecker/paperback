@@ -19,20 +19,20 @@ proj/
     components/
       __name__/
         __name__.js
-        prompts.json
+        prompts.js
         style.css
 ```
 
-`proj/templates/components/__name__/prompts.json`
-```json
-[
+`proj/templates/components/__name__/prompts.js`
+```js
+module.exports = [
   {
-    "name": "name",
-    "message": "What is the component name?"
+    name: "name",
+    message: "What is the component name?"
   },
   {
-    "name": "place",
-    "message": "What is the place?"
+    name: "place",
+    message: "What is the place?"
   }
 ]
 ```
@@ -63,7 +63,7 @@ proj/
     components/
       __name__/
         __name__.js
-        prompts.json
+        prompts.js
         style.css
 ```
 
