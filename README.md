@@ -47,7 +47,7 @@ Running paperback
 paperback components/__name__
 ```
 
-inquirer asks questions
+[inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) asks questions
 ```bash
 What is the component name? hello-world
 What is the place? Taco Bell
