@@ -20,10 +20,10 @@ test('it generates file', async t => {
     fs: {
       readdir(path, cb) {
         t.is(path, join('some_dir', 'templates', '__name__'))
-        cb(null, ['__name__-component.js', 'prompts.js'])
+        cb(null, ['__name____name__-component.js', 'prompts.js'])
       },
       readFile(path, cb) {
-        t.is(path, join('some_dir', 'templates', '__name__', '__name__-component.js'))
+        t.is(path, join('some_dir', 'templates', '__name__', '__name____name__-component.js'))
         cb(null, {
           toString() {
             return 'Hello <%= name %>!'
@@ -31,7 +31,7 @@ test('it generates file', async t => {
         })
       },
       writeFile(path, contents, cb) {
-        t.is(path, 'some_dir/dog/dog-component.js')
+        t.is(path, 'some_dir/dog/dogdog-component.js')
         t.is(contents, 'Hello dog!')
         cb(null)
       }

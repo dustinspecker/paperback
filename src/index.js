@@ -10,7 +10,8 @@ const replaceFileNameWithVar = (fileName, answers) => {
   let name = fileName
 
   Object.keys(answers).forEach(answer => {
-    name = name.replace(`__${answer}__`, answers[answer])
+    const regex = new RegExp(`__${answer}__`, 'g')
+    name = name.replace(regex, answers[answer])
   })
 
   return name
