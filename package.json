@@ -11,7 +11,12 @@
     "test": "npm run lint && npm run compile && nyc ava"
   },
   "repository": "dustinspecker/paperback",
-  "keywords": [],
+  "keywords": [
+    "paperback",
+    "generate",
+    "scaffold",
+    "template"
+  ],
   "author": {
     "name": "Dustin Specker",
     "email": "DustinSpecker@DustinSpecker.com",
