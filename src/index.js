@@ -6,6 +6,14 @@ import mkdirp from 'mkdirp'
 import pify from 'pify'
 import {readdir, readFile, writeFile} from 'fs'
 
+/**
+ * Replace portions of fileName string matching a key of answers
+ * with the value of that answers key.
+ *
+ * @param {String} fileName - fileName to replace with answers
+ * @param {Object} answers - answers from prompts to replace values in fileName
+ * @return {String} - replaced fileName
+ */
 const replaceFileNameWithVar = (fileName, answers) => {
   let name = fileName
 
@@ -17,6 +25,13 @@ const replaceFileNameWithVar = (fileName, answers) => {
   return name
 }
 
+/**
+ * Generate a file from a template after asking questions
+ *
+ * @param {String} cwd - the directory to look for the templatePath
+ * @param {Object} argv - a process.argv like object
+ * @return {Promise} - resolves when writing of template files finishes
+ */
 module.exports = (cwd, argv) => {
   const {_: args, templatePath = 'pages'} = argv
   const [templateFileName] = args
