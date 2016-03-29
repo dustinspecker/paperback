@@ -1,5 +1,6 @@
 'use strict'
 import _ from 'lodash'
+import chalk from 'chalk'
 import inquirer from 'inquirer'
 import {join} from 'path'
 import mkdirp from 'mkdirp'
@@ -55,7 +56,9 @@ module.exports = (cwd, argv) => {
         const contents = _.template(tempFile.toString())(answers)
         const filePath = stringReplaceWithObject(templateFileName, answers, '__')
         const fileName = stringReplaceWithObject(files[index], answers, '__')
-        return pify(writeFile)(join(cwd, filePath, fileName), contents)
+        const fullPath = join(cwd, filePath, fileName)
+        console.log(`${chalk.green('Created')} ${fullPath}`)
+        return pify(writeFile)(fullPath, contents)
       }))
     )
 }

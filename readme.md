@@ -101,6 +101,12 @@ What is the component name? hello-world
 What is the place? Taco Bell
 ```
 
+paperback will log:
+```bash
+Created /Users/dustin/proj/components/hello-world/hello-world.js
+Created /Users/dustin/proj/components/hello-world/style.css
+```
+
 paperback generates the templated files.
 ```diff
 proj/

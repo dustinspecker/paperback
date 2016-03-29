@@ -1,4 +1,6 @@
 'use strict'
+import austin from 'austin'
+import chalk from 'chalk'
 import {expectRequire} from 'a'
 import {join} from 'path'
 import proxyquire from 'proxyquire'
@@ -14,7 +16,7 @@ test('it rejects error when require fails to find prompts.js', async t =>
 )
 
 test('it generates file', async t => {
-  t.plan(6)
+  t.plan(7)
 
   expectRequire('some_dir/pages/__name__/prompts.js').return('questions')
 
@@ -50,7 +52,12 @@ test('it generates file', async t => {
     }
   })
 
+  austin.spy(console, 'log')
+
   return mockedPaperback('./some_dir', {_: ['__name__']})
+    .then(() => {
+      t.ok(console.log.calledWith(`${chalk.green('Created')} some_dir/dog/dogdog-component.js`))
+    })
 })
 
 test('it resolves template path with cwd', async t => {
