@@ -10,6 +10,10 @@
 npm install --global paperback
 ```
 
+## Purpose
+
+Create your own templates. Answer questions about the templates via inquirer. Generate those templates with the power of lodash.
+
 ## Usage
 1. Starting with a project such as:
 ```
