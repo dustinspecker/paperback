@@ -18,7 +18,7 @@ const replaceFileNameWithVar = (fileName, answers) => {
 }
 
 module.exports = (cwd, argv) => {
-  const {_: args, templatePath = 'templates'} = argv
+  const {_: args, templatePath = 'pages'} = argv
   const [templateFileName] = args
 
   let answers = {}

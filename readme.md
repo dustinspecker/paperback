@@ -26,7 +26,7 @@ proj/
       jumping-button.js
       style.css
 ```
-### 2. Create a templates directory mirroring the file structure of the actual project.
+### 2. Create a `pages` directory mirroring the file structure of the actual project. The `pages` directory holds the templates.
 ```diff
 proj/
   components/
@@ -36,7 +36,7 @@ proj/
     jumping-button/
       jumping-button.js
       style.css
-+  templates/
++  pages/
 +    components/
 +     __name__/
 +       __name__.js
@@ -44,12 +44,12 @@ proj/
 ```
 **The `__name__` notation is treated specially in paperback. Paperback will later replace these values with answers from questions about how to generate the files.**
 
-The contents of `proj/templates/components/__name__/__name__.js` are a lodash template. Paperback will later perform lodash's template function to provide unique data.
+The contents of `proj/pages/components/__name__/__name__.js` are a lodash template. Paperback will later perform lodash's template function to provide unique data.
 ```javascript
 console.log('Hello <%= place %>')
 ```
 
-The contents of `proj/templates/components/__name__/style.css`
+The contents of `proj/pages/components/__name__/style.css`
 ```css
 .<%= name %> {
   color: #000;
@@ -65,7 +65,7 @@ proj/
     jumping-button/
       jumping-button.js
       style.css
-  templates/
+  pages/
     components/
       __name__/
         __name__.js
@@ -73,7 +73,7 @@ proj/
         style.css
 ```
 
-`proj/templates/components/__name__/prompts.js`
+`proj/pages/components/__name__/prompts.js`
 ```js
 module.exports = [
   {
@@ -114,7 +114,7 @@ proj/
     jumping-button/
       jumping-button.js
       style.css
-  templates/
+  pages/
     components/
       __name__/
         __name__.js
@@ -136,7 +136,7 @@ console.log('Hello Taco Bell')
 
 ## Misc. Usage
 
-If the `templates` directory name conflicts with the project structure, paperback may be told where to look for templates via:
+If the `pages` directory name conflicts with the project structure, paperback may be told where to look for templates via:
 
 ```bash
 paperback components/__name__ --template-path=templates/go/here
