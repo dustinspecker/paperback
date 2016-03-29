@@ -19,7 +19,7 @@ const replaceFileNameWithVar = (fileName, answers) => {
 
 module.exports = (cwd, argv) => {
   const {_: args} = argv
-  const [templatePath] = args
+  const [templateFileName] = args
 
   let answers = {}
     , files = []
@@ -27,7 +27,7 @@ module.exports = (cwd, argv) => {
   // ask questions from prompts.js
   return new Promise(resolve => {
     // create promptsFile path
-    const promptsFile = join(cwd, 'templates', templatePath, 'prompts.js')
+    const promptsFile = join(cwd, 'templates', templateFileName, 'prompts.js')
 
     /* eslint-disable global-require */
     inquirer.prompt(require(promptsFile), results => resolve(results))
@@ -35,20 +35,20 @@ module.exports = (cwd, argv) => {
   })
     .then(promptResults => {
       answers = promptResults
-      return pify(mkdirp)(replaceFileNameWithVar(templatePath, answers))
+      return pify(mkdirp)(replaceFileNameWithVar(templateFileName, answers))
     })
-    .then(() => pify(readdir)(join(cwd, 'templates', templatePath)))
+    .then(() => pify(readdir)(join(cwd, 'templates', templateFileName)))
     .then(fileNames => {
       files = fileNames.filter(fileName => fileName !== 'prompts.js')
       return Promise.all(files.map(fileName =>
-        pify(readFile)(join(cwd, 'templates', templatePath, fileName))
+        pify(readFile)(join(cwd, 'templates', templateFileName, fileName))
       ))
     })
     .then(tempFiles =>
       // complete templated file and write
       Promise.all(tempFiles.map((tempFile, index) => {
         const contents = _.template(tempFile.toString())(answers)
-        const filePath = replaceFileNameWithVar(templatePath, answers)
+        const filePath = replaceFileNameWithVar(templateFileName, answers)
         const fileName = replaceFileNameWithVar(files[index], answers)
         return pify(writeFile)(join(cwd, filePath, fileName), contents)
       }))
