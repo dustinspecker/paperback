@@ -5,16 +5,55 @@
 
 > Easily generate files from templates
 
-## THIS IS EXPERIMENTAL, NOT TESTED, AND NOT READY FOR REAL USE
-
 ## Install
 ```
 npm install --global paperback
 ```
 
 ## Usage
+1. Starting with a project such as:
 ```
 proj/
+  components/
+    app-bar/
+      app-bar.js
+      style.css
+    jumping-button/
+      jumping-button.js
+      style.css
+```
+2. Create a templates directory mirroring the file structure of the actual project.
+```
+proj/
+  components/
+    app-bar/
+      app-bar.js
+      style.css
+    jumping-button/
+      jumping-button.js
+      style.css
+  templates/
+    components/
+      __name__/
+        __name__.js
+        style.css
+```
+**The `__name__` notation is treated specially in paperback. Paperback will later replace these values with answers from questions about how to generate the files.**
+
+The contents of `proj/templates/components/__name__/__name__.js` are a lodash template. Paperback will later perform lodash's template function to provide unique data.
+```javascript
+console.log('Hello <%= place %>')
+```
+3. Create a `prompts.js` file.
+```
+proj/
+  components/
+    app-bar/
+      app-bar.js
+      style.css
+    jumping-button/
+      jumping-button.js
+      style.css
   templates/
     components/
       __name__/
@@ -36,29 +75,32 @@ module.exports = [
   }
 ]
 ```
+These prompts are provided to [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) to retrieve the required values for the template.
 
-`proj/templates/components/__name__/__name__.js`
-```javascript
-console.log('Hello <%= place %>')
-```
-
-Running paperback
+4. Run paperback
 ```bash
 paperback components/__name__
 ```
 
-[inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) asks questions
+[inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) asks questions...
 ```bash
 What is the component name? hello-world
 What is the place? Taco Bell
 ```
 
+paperback generates the templated files.
 ```
 proj/
   components/
+    app-bar/
+      app-bar.js
+      style.css
     hello-world/
       hello-world.js
       style.css 
+    jumping-button/
+      jumping-button.js
+      style.css
   templates/
     components/
       __name__/
