@@ -12,7 +12,7 @@ npm install --global paperback
 
 ## Purpose
 
-Create your own templates. Answer questions about the templates via inquirer. Generate those templates with the power of lodash.
+Create your own templates. Answer questions about the templates via [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0). Generate those templates with the power of [lodash](https://lodash.com/docs#template).
 
 ## Usage
 ### 1. Starting with a project such as:
