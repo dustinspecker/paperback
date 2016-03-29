@@ -12,20 +12,18 @@ import stringReplaceWithObject from 'string-replace-with-object'
  * Generate a file from a template after asking questions
  *
  * @param {String} cwd - the directory to look for the templatePath
- * @param {Object} argv - a process.argv like object
+ * @param {String} templateDir - templates directory to read
+ * @param {Options} [options.templatePath='pages'] - custom templatePath to look for templateDirectory
  * @return {Promise} - resolves when writing of template files finishes
  */
-module.exports = (cwd, argv) => {
-  const {_: args, templatePath = 'pages'} = argv
-  const [templateFileName] = args
-
+module.exports = (cwd, templateDir, {templatePath = 'pages'} = {}) => {
   let answers = {}
     , files = []
 
   // ask questions from prompts.js
   return new Promise((resolve, reject) => {
     // create promptsFile path
-    const promptsDir = join(cwd, templatePath, templateFileName)
+    const promptsDir = join(cwd, templatePath, templateDir)
     const promptsFile = join(promptsDir, 'prompts.js')
 
     let promptsModule
@@ -41,20 +39,20 @@ module.exports = (cwd, argv) => {
   })
     .then(promptResults => {
       answers = promptResults
-      return pify(mkdirp)(stringReplaceWithObject(templateFileName, answers, '__'))
+      return pify(mkdirp)(stringReplaceWithObject(templateDir, answers, '__'))
     })
-    .then(() => pify(readdir)(join(cwd, templatePath, templateFileName)))
+    .then(() => pify(readdir)(join(cwd, templatePath, templateDir)))
     .then(fileNames => {
       files = fileNames.filter(fileName => fileName !== 'prompts.js')
       return Promise.all(files.map(fileName =>
-        pify(readFile)(join(cwd, templatePath, templateFileName, fileName))
+        pify(readFile)(join(cwd, templatePath, templateDir, fileName))
       ))
     })
     .then(tempFiles =>
       // complete templated file and write
       Promise.all(tempFiles.map((tempFile, index) => {
         const contents = _.template(tempFile.toString())(answers)
-        const filePath = stringReplaceWithObject(templateFileName, answers, '__')
+        const filePath = stringReplaceWithObject(templateDir, answers, '__')
         const fileName = stringReplaceWithObject(files[index], answers, '__')
         const fullPath = join(cwd, filePath, fileName)
         console.log(`${chalk.green('Created')} ${fullPath}`)

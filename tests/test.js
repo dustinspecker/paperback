@@ -9,7 +9,7 @@ import test from 'ava'
 import paperback from '../lib'
 
 test('it rejects error when require fails to find prompts.js', async t =>
-  paperback('some_dir', {_: ['hi']})
+  paperback('some_dir', 'hi')
     .catch(err => {
       t.is(err, 'Could not find prompts.js in some_dir/pages/hi')
     })
@@ -54,7 +54,7 @@ test('it generates file', async t => {
 
   austin.spy(console, 'log')
 
-  return mockedPaperback('./some_dir', {_: ['__name__']})
+  return mockedPaperback('./some_dir', '__name__')
     .then(() => {
       t.ok(console.log.calledWith(`${chalk.green('Created')} some_dir/dog/dogdog-component.js`))
     })
@@ -63,7 +63,7 @@ test('it generates file', async t => {
 test('it resolves template path with cwd', async t => {
   t.plan(1)
 
-  return paperback('./some_dir', {_: ['__name__'], templatePath: '../template-stuff'})
+  return paperback('./some_dir', '__name__', {templatePath: '../template-stuff'})
     .catch(err => {
       t.is(err, 'Could not find prompts.js in template-stuff/__name__')
     })
@@ -72,7 +72,7 @@ test('it resolves template path with cwd', async t => {
 test('it supports --template-path option', async t => {
   t.plan(1)
 
-  return paperback('./some_dir', {_: ['__name__'], templatePath: 'template-stuff'})
+  return paperback('./some_dir', '__name__', {templatePath: 'template-stuff'})
     .catch(err => {
       t.is(err, 'Could not find prompts.js in some_dir/template-stuff/__name__')
     })
@@ -82,7 +82,7 @@ test('it rejects with prompts.js not found', async t => {
   t.plan(1)
 
   try {
-    await paperback('./some_dir', {_: ['__name__']})
+    await paperback('./some_dir', '__name__')
   } catch (err) {
     t.is(err, 'Could not find prompts.js in some_dir/pages/__name__')
   }
