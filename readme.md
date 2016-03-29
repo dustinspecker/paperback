@@ -48,6 +48,13 @@ The contents of `proj/templates/components/__name__/__name__.js` are a lodash te
 ```javascript
 console.log('Hello <%= place %>')
 ```
+
+The contents of `proj/templates/components/__name__/style.css`
+```css
+.<%= name %> {
+  color: #000;
+}
+```
 ### 3. Create a `prompts.js` file.
 ```
 proj/
@@ -118,6 +125,13 @@ proj/
 `proj/components/hello-world/hello-world.js`
 ```javascript
 console.log('Hello Taco Bell')
+```
+
+`proj/components/hello-world/style.css`
+```css
+.hello-world {
+  color: #000;
+}
 ```
 
 ## LICENSE
