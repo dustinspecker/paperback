@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Easily generate files from templates",
   "main": "lib/index.js",
+  "bin": "lib/cli.js",
   "scripts": {
     "compile": "babel src --out-dir lib",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
