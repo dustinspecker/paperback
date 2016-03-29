@@ -134,5 +134,13 @@ console.log('Hello Taco Bell')
 }
 ```
 
+## Misc. Usage
+
+If the `templates` directory name conflicts with the project structure, paperback may be told where to look for templates via:
+
+```bash
+paperback components/__name__ --template-path=templates/go/here
+```
+
 ## LICENSE
 MIT © [Dustin Specker](https://github.com/dustinspecker)

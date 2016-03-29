@@ -52,3 +52,12 @@ test('it generates file', async t => {
 
   return mockedPaperback('./some_dir', {_: ['__name__']})
 })
+
+test('it supports --template-path option', async t => {
+  t.plan(1)
+
+  return paperback('./some_dir', {_: ['__name__'], templatePath: 'template-stuff'})
+    .catch(err => {
+      t.is(err.message, 'Cannot find module \'some_dir/template-stuff/__name__/prompts.js\'')
+    })
+})

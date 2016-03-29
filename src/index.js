@@ -18,7 +18,7 @@ const replaceFileNameWithVar = (fileName, answers) => {
 }
 
 module.exports = (cwd, argv) => {
-  const {_: args} = argv
+  const {_: args, templatePath = 'templates'} = argv
   const [templateFileName] = args
 
   let answers = {}
@@ -27,7 +27,7 @@ module.exports = (cwd, argv) => {
   // ask questions from prompts.js
   return new Promise(resolve => {
     // create promptsFile path
-    const promptsFile = join(cwd, 'templates', templateFileName, 'prompts.js')
+    const promptsFile = join(cwd, templatePath, templateFileName, 'prompts.js')
 
     /* eslint-disable global-require */
     inquirer.prompt(require(promptsFile), results => resolve(results))
@@ -37,11 +37,11 @@ module.exports = (cwd, argv) => {
       answers = promptResults
       return pify(mkdirp)(replaceFileNameWithVar(templateFileName, answers))
     })
-    .then(() => pify(readdir)(join(cwd, 'templates', templateFileName)))
+    .then(() => pify(readdir)(join(cwd, templatePath, templateFileName)))
     .then(fileNames => {
       files = fileNames.filter(fileName => fileName !== 'prompts.js')
       return Promise.all(files.map(fileName =>
-        pify(readFile)(join(cwd, 'templates', templateFileName, fileName))
+        pify(readFile)(join(cwd, templatePath, templateFileName, fileName))
       ))
     })
     .then(tempFiles =>
