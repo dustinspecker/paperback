@@ -22,13 +22,21 @@ module.exports = (cwd, argv) => {
     , files = []
 
   // ask questions from prompts.js
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     // create promptsFile path
-    const promptsFile = join(cwd, templatePath, templateFileName, 'prompts.js')
+    const promptsDir = join(cwd, templatePath, templateFileName)
+    const promptsFile = join(promptsDir, 'prompts.js')
 
-    /* eslint-disable global-require */
-    inquirer.prompt(require(promptsFile), results => resolve(results))
-    /* eslint-enable global-require */
+    let promptsModule
+    try {
+      /* eslint-disable global-require */
+      promptsModule = require(promptsFile)
+      /* eslint-enable global-require */
+    } catch (e) {
+      reject(`Could not find prompts.js in ${promptsDir}`)
+    }
+
+    inquirer.prompt(promptsModule, results => resolve(results))
   })
     .then(promptResults => {
       answers = promptResults
