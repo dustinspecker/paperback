@@ -15,7 +15,7 @@ npm install --global paperback
 Create your own templates. Answer questions about the templates via inquirer. Generate those templates with the power of lodash.
 
 ## Usage
-1. Starting with a project such as:
+### 1. Starting with a project such as:
 ```
 proj/
   components/
@@ -26,7 +26,7 @@ proj/
       jumping-button.js
       style.css
 ```
-2. Create a templates directory mirroring the file structure of the actual project.
+### 2. Create a templates directory mirroring the file structure of the actual project.
 ```
 proj/
   components/
@@ -48,7 +48,7 @@ The contents of `proj/templates/components/__name__/__name__.js` are a lodash te
 ```javascript
 console.log('Hello <%= place %>')
 ```
-3. Create a `prompts.js` file.
+### 3. Create a `prompts.js` file.
 ```
 proj/
   components/
@@ -81,7 +81,7 @@ module.exports = [
 ```
 These prompts are provided to [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) to retrieve the required values for the template.
 
-4. Run paperback
+### 4. Run paperback
 ```bash
 paperback components/__name__
 ```
