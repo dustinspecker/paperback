@@ -42,7 +42,7 @@ proj/
 +       __name__.js
 +       style.css
 ```
-**The `__name__` notation is treated specially in paperback. Paperback will later replace these values with answers from questions about how to generate the files.**
+**The `__word__` notation is treated specially in paperback. Paperback will later replace these values with answers from questions about how to generate the files.**
 
 The contents of `proj/pages/components/__name__/__name__.js` are a lodash template. Paperback will later perform lodash's template function to provide unique data.
 ```javascript
@@ -86,6 +86,8 @@ module.exports = [
   }
 ]
 ```
+There **must** be a prompt with a "name" for each lodash template variable used.
+
 These prompts are provided to [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) to retrieve the required values for the template. Inquirer offers tons of features including input validation and different question types.
 
 Later on after answering inquirer questions, paperback will know what to provide for the `name` and `place` template values in the file paths and file contents.
