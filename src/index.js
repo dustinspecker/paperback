@@ -5,25 +5,7 @@ import {join} from 'path'
 import mkdirp from 'mkdirp'
 import pify from 'pify'
 import {readdir, readFile, writeFile} from 'fs'
-
-/**
- * Replace portions of fileName string matching a key of answers
- * with the value of that answers key.
- *
- * @param {String} fileName - fileName to replace with answers
- * @param {Object} answers - answers from prompts to replace values in fileName
- * @return {String} - replaced fileName
- */
-const replaceFileNameWithVar = (fileName, answers) => {
-  let name = fileName
-
-  Object.keys(answers).forEach(answer => {
-    const regex = new RegExp(`__${answer}__`, 'g')
-    name = name.replace(regex, answers[answer])
-  })
-
-  return name
-}
+import stringReplaceWithObject from 'string-replace-with-object'
 
 /**
  * Generate a file from a template after asking questions
@@ -50,7 +32,7 @@ module.exports = (cwd, argv) => {
   })
     .then(promptResults => {
       answers = promptResults
-      return pify(mkdirp)(replaceFileNameWithVar(templateFileName, answers))
+      return pify(mkdirp)(stringReplaceWithObject(templateFileName, answers, '__'))
     })
     .then(() => pify(readdir)(join(cwd, templatePath, templateFileName)))
     .then(fileNames => {
@@ -63,8 +45,8 @@ module.exports = (cwd, argv) => {
       // complete templated file and write
       Promise.all(tempFiles.map((tempFile, index) => {
         const contents = _.template(tempFile.toString())(answers)
-        const filePath = replaceFileNameWithVar(templateFileName, answers)
-        const fileName = replaceFileNameWithVar(files[index], answers)
+        const filePath = stringReplaceWithObject(templateFileName, answers, '__')
+        const fileName = stringReplaceWithObject(files[index], answers, '__')
         return pify(writeFile)(join(cwd, filePath, fileName), contents)
       }))
     )

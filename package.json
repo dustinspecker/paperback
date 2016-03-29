@@ -58,6 +58,7 @@
     "lodash": "^4.6.1",
     "mkdirp": "^0.5.1",
     "pify": "^2.3.0",
+    "string-replace-with-object": "^1.0.0",
     "yargs": "^4.3.2"
   }
 }
