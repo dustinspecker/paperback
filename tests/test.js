@@ -14,6 +14,8 @@ test('it rejects error when require fails to find prompts.js', async t =>
 )
 
 test('it generates file', async t => {
+  t.plan(6)
+
   expectRequire('some_dir/templates/__name__/prompts.js').return('questions')
 
   const mockedPaperback = proxyquire('../lib/', {
@@ -49,8 +51,4 @@ test('it generates file', async t => {
   })
 
   return mockedPaperback('./some_dir', {_: ['__name__']})
-    .catch(err => {
-      t.is(err.stack, 2)
-      t.is(err.message, 3)
-    })
 })
