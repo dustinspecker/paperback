@@ -1,10 +1,56 @@
 'use strict'
+import {expectRequire} from 'a'
+import {join} from 'path'
+import proxyquire from 'proxyquire'
 import test from 'ava'
 
-import inquirerQuestions from '../lib/'
+import paperback from '../lib'
 
-test('it should throw error if templates directory is not found', t => {
-  t.throws(inquirerQuestions, Error)
-  t.throws(inquirerQuestions, /Could not find a `.\/templates\/`/)
+test('it rejects error when require fails to find prompts.js', async t =>
+  paperback('some_dir', {_: ['hi']})
+    .catch(err => {
+      t.is(err.message, 'Cannot find module \'some_dir/templates/hi/prompts.js\'')
+    })
+)
+
+test('it generates file', async t => {
+  expectRequire('some_dir/templates/__name__/prompts.js').return('questions')
+
+  const mockedPaperback = proxyquire('../lib/', {
+    fs: {
+      readdir(path, cb) {
+        t.is(path, join('some_dir', 'templates', '__name__'))
+        cb(null, ['__name__-component.js', 'prompts.js'])
+      },
+      readFile(path, cb) {
+        t.is(path, join('some_dir', 'templates', '__name__', '__name__-component.js'))
+        cb(null, {
+          toString() {
+            return 'Hello <%= name %>!'
+          }
+        })
+      },
+      writeFile(path, contents, cb) {
+        t.is(path, 'some_dir/dog/dog-component.js')
+        t.is(contents, 'Hello dog!')
+        cb(null)
+      }
+    },
+    inquirer: {
+      prompt(questions, cb) {
+        t.is(questions, 'questions')
+        cb({name: 'dog'})
+      }
+    },
+    mkdirp(path, cb) {
+      t.is(path, 'dog')
+      cb(null)
+    }
+  })
+
+  return mockedPaperback('./some_dir', {_: ['__name__']})
+    .catch(err => {
+      t.is(err.stack, 2)
+      t.is(err.message, 3)
+    })
 })
-
