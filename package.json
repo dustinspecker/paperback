@@ -1,6 +1,6 @@
 {
   "name": "paperback",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Easily generate files from templates",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
