@@ -27,7 +27,7 @@ proj/
       style.css
 ```
 ### 2. Create a templates directory mirroring the file structure of the actual project.
-```
+```diff
 proj/
   components/
     app-bar/
@@ -36,11 +36,11 @@ proj/
     jumping-button/
       jumping-button.js
       style.css
-  templates/
-    components/
-      __name__/
-        __name__.js
-        style.css
++  templates/
++    components/
++     __name__/
++       __name__.js
++       style.css
 ```
 **The `__name__` notation is treated specially in paperback. Paperback will later replace these values with answers from questions about how to generate the files.**
 
@@ -56,7 +56,7 @@ The contents of `proj/templates/components/__name__/style.css`
 }
 ```
 ### 3. Create a `prompts.js` file.
-```
+```diff
 proj/
   components/
     app-bar/
@@ -69,7 +69,7 @@ proj/
     components/
       __name__/
         __name__.js
-        prompts.js
++       prompts.js
         style.css
 ```
 
@@ -102,15 +102,15 @@ What is the place? Taco Bell
 ```
 
 paperback generates the templated files.
-```
+```diff
 proj/
   components/
     app-bar/
       app-bar.js
       style.css
-    hello-world/
-      hello-world.js
-      style.css 
++   hello-world/
++     hello-world.js
++     style.css
     jumping-button/
       jumping-button.js
       style.css
