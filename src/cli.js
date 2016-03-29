@@ -9,6 +9,10 @@ const cli = meow(`
 
   Options
     --template-path Template path to looks for <template>
+
+  Examples
+    $ paperback components/__name__
+    $ paperback project-setup --template-path ../external-repo
 `)
 
 paperback(process.cwd(), cli.input[0], cli.flags)
