@@ -79,7 +79,9 @@ module.exports = [
   }
 ]
 ```
-These prompts are provided to [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) to retrieve the required values for the template.
+These prompts are provided to [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) to retrieve the required values for the template. Inquirer offers tons of features including input validation and different question types.
+
+Later on after answering inquirer questions, paperback will know what to provide for the `name` and `place` template values in the file paths and file contents.
 
 ### 4. Run paperback
 ```bash
