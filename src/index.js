@@ -13,10 +13,13 @@ import stringReplaceWithObject from 'string-replace-with-object'
  *
  * @param {String} cwd - the directory to look for the templatePath
  * @param {String} templateDir - templates directory to read
- * @param {Options} [options.templatePath='pages'] - custom templatePath to look for templateDirectory
+ * @param {Object} [options={}] - options for path configuration
+ * @param {String} [options.templatePath='pages'] - custom templatePath to look for templateDirectory
  * @return {Promise} - resolves when writing of template files finishes
  */
-module.exports = (cwd, templateDir, {templatePath = 'pages'} = {}) => {
+module.exports = (cwd, templateDir, options = {}) => {
+  const templatePath = options.templatePath || 'pages'
+
   let answers = {}
     , files = []
 
