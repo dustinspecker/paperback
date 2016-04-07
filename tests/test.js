@@ -56,7 +56,7 @@ test('it generates file', async t => {
 
   return mockedPaperback('./some_dir', '__name__')
     .then(() => {
-      t.ok(console.log.calledWith(`${chalk.green('Created')} some_dir/dog/dogdog-component.js`))
+      t.truthy(console.log.calledWith(`${chalk.green('Created')} some_dir/dog/dogdog-component.js`))
     })
 })
 
