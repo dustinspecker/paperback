@@ -24,22 +24,23 @@ module.exports = (cwd, templateDir, options = {}) => {
     , files = []
 
   // ask questions from prompts.js
-  return Promise.resolve().then(() => {
-    // create promptsFile path
-    const promptsDir = join(cwd, templatePath, templateDir)
-    const promptsFile = join(promptsDir, 'prompts.js')
+  return Promise.resolve()
+    .then(() => {
+      // create promptsFile path
+      const promptsDir = join(cwd, templatePath, templateDir)
+      const promptsFile = join(promptsDir, 'prompts.js')
 
-    let promptsModule
-    try {
-      /* eslint-disable global-require */
-      promptsModule = require(promptsFile)
-      /* eslint-enable global-require */
-    } catch (e) {
-      throw new Error(`Could not find prompts.js in ${promptsDir}`)
-    }
+      let promptsModule
+      try {
+        /* eslint-disable global-require */
+        promptsModule = require(promptsFile)
+        /* eslint-enable global-require */
+      } catch (e) {
+        throw new Error(`Could not find prompts.js in ${promptsDir}`)
+      }
 
-    return inquirer.prompt(promptsModule)
-  })
+      return inquirer.prompt(promptsModule)
+    })
     .then(promptResults => {
       answers = promptResults
       return pify(mkdirp)(stringReplaceWithObject(templateDir, answers, '__'))
