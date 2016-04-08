@@ -11,7 +11,7 @@ import paperback from '../lib'
 test('it rejects error when require fails to find prompts.js', async t =>
   paperback('some_dir', 'hi')
     .catch(err => {
-      t.is(err, 'Could not find prompts.js in some_dir/pages/hi')
+      t.is(err.message, 'Could not find prompts.js in some_dir/pages/hi')
     })
 )
 
@@ -41,9 +41,9 @@ test('it generates file', async t => {
       }
     },
     inquirer: {
-      prompt(questions, cb) {
+      prompt(questions) {
         t.is(questions, 'questions')
-        cb({name: 'dog'})
+        return Promise.resolve({name: 'dog'})
       }
     },
     mkdirp(path, cb) {
@@ -65,7 +65,7 @@ test('it resolves template path with cwd', async t => {
 
   return paperback('./some_dir', '__name__', {templatePath: '../template-stuff'})
     .catch(err => {
-      t.is(err, 'Could not find prompts.js in template-stuff/__name__')
+      t.is(err.message, 'Could not find prompts.js in template-stuff/__name__')
     })
 })
 
@@ -74,7 +74,7 @@ test('it supports --template-path option', async t => {
 
   return paperback('./some_dir', '__name__', {templatePath: 'template-stuff'})
     .catch(err => {
-      t.is(err, 'Could not find prompts.js in some_dir/template-stuff/__name__')
+      t.is(err.message, 'Could not find prompts.js in some_dir/template-stuff/__name__')
     })
 })
 
@@ -84,6 +84,6 @@ test('it rejects with prompts.js not found', async t => {
   try {
     await paperback('./some_dir', '__name__')
   } catch (err) {
-    t.is(err, 'Could not find prompts.js in some_dir/pages/__name__')
+    t.is(err.message, 'Could not find prompts.js in some_dir/pages/__name__')
   }
 })

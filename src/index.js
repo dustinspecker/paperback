@@ -24,7 +24,7 @@ module.exports = (cwd, templateDir, options = {}) => {
     , files = []
 
   // ask questions from prompts.js
-  return new Promise((resolve, reject) => {
+  return Promise.resolve().then(() => {
     // create promptsFile path
     const promptsDir = join(cwd, templatePath, templateDir)
     const promptsFile = join(promptsDir, 'prompts.js')
@@ -35,10 +35,10 @@ module.exports = (cwd, templateDir, options = {}) => {
       promptsModule = require(promptsFile)
       /* eslint-enable global-require */
     } catch (e) {
-      reject(`Could not find prompts.js in ${promptsDir}`)
+      throw new Error(`Could not find prompts.js in ${promptsDir}`)
     }
 
-    inquirer.prompt(promptsModule, results => resolve(results))
+    return inquirer.prompt(promptsModule)
   })
     .then(promptResults => {
       answers = promptResults
