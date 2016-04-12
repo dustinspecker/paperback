@@ -7,6 +7,8 @@
 [![Dependencies](https://david-dm.org/dustinspecker/paperback.svg)](https://david-dm.org/dustinspecker/paperback/#info=dependencies&view=table)
 [![DevDependencies](https://david-dm.org/dustinspecker/paperback/dev-status.svg)](https://david-dm.org/dustinspecker/paperback/#info=devDependencies&view=table)
 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 > Easily generate files from templates
 
 ## Install
