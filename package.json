@@ -1,6 +1,6 @@
 {
   "name": "paperback",
-  "version": "0.3.0",
+  "version": "0.0.0-semantic-release",
   "description": "Easily generate files from templates",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
@@ -8,9 +8,13 @@
     "compile": "babel src --out-dir lib",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint ./ --ignore-pattern node_modules/ --ignore-pattern lib",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "test": "npm run lint && npm run compile && nyc ava"
   },
-  "repository": "dustinspecker/paperback",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dustinspecker/paperback.git"
+  },
   "keywords": [
     "paperback",
     "generate",
@@ -40,7 +44,8 @@
     "eslint-config-dustinspecker": "^0.4.1",
     "eslint-plugin-no-use-extend-native": "^0.3.1",
     "nyc": "^6.1.1",
-    "proxyquire": "^1.7.4"
+    "proxyquire": "^1.7.4",
+    "semantic-release": "^4.3.5"
   },
   "ava": {
     "files": [
