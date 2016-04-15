@@ -43,11 +43,13 @@ module.exports = (cwd, templateDir, options = {}) => {
     })
     .then(promptResults => {
       answers = promptResults
+
       return pify(mkdirp)(stringReplaceWithObject(templateDir, answers, '__'))
     })
     .then(() => pify(readdir)(join(cwd, templatePath, templateDir)))
     .then(fileNames => {
       files = fileNames.filter(fileName => fileName !== 'prompts.js')
+
       return Promise.all(files.map(fileName =>
         pify(readFile)(join(cwd, templatePath, templateDir, fileName))
       ))
@@ -60,6 +62,7 @@ module.exports = (cwd, templateDir, options = {}) => {
         const fileName = stringReplaceWithObject(files[index], answers, '__')
         const fullPath = join(cwd, filePath, fileName)
         console.log(`${chalk.green('Created')} ${fullPath}`)
+
         return pify(writeFile)(fullPath, contents)
       }))
     )

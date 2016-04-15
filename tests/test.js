@@ -43,6 +43,7 @@ test('it generates file', async t => {
     inquirer: {
       prompt(questions) {
         t.is(questions, 'questions')
+
         return Promise.resolve({name: 'dog'})
       }
     },
