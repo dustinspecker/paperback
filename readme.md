@@ -1,6 +1,6 @@
 # paperback
 [![NPM version](https://badge.fury.io/js/paperback.svg)](https://badge.fury.io/js/paperback)
-[![Build Status](https://travis-ci.org/dustinspecker/paperback.svg)](https://travis-ci.org/dustinspecker/paperback)
+[![Build Status](https://travis-ci.org/dustinspecker/paperback.svg?branch=master)](https://travis-ci.org/dustinspecker/paperback)
 [![Coverage Status](https://img.shields.io/coveralls/dustinspecker/paperback.svg)](https://coveralls.io/r/dustinspecker/paperback?branch=master)
 
 [![Code Climate](https://codeclimate.com/github/dustinspecker/paperback/badges/gpa.svg)](https://codeclimate.com/github/dustinspecker/paperback)
