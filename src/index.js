@@ -4,6 +4,7 @@ import chalk from 'chalk'
 import inquirer from 'inquirer'
 import {join} from 'path'
 import mkdirp from 'mkdirp'
+import objectAssign from 'object-assign'
 import pify from 'pify'
 import {readdir, readFile, writeFile} from 'fs'
 import stringReplaceWithObject from 'string-replace-with-object'
@@ -39,10 +40,16 @@ module.exports = (cwd, templateDir, options = {}) => {
         throw new Error(`Could not find prompts.js in ${promptsDir}`)
       }
 
-      return inquirer.prompt(promptsModule)
+      const unansweredQuestions =
+        promptsModule
+          .filter(question =>
+            Object.keys(options).indexOf(question.name) === -1
+          )
+
+      return inquirer.prompt(unansweredQuestions)
     })
     .then(promptResults => {
-      answers = promptResults
+      answers = objectAssign(promptResults, options)
 
       return pify(mkdirp)(stringReplaceWithObject(templateDir, answers, '__'))
     })

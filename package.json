@@ -66,6 +66,7 @@
     "lodash": "^4.6.1",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
+    "object-assign": "^4.0.1",
     "pify": "^2.3.0",
     "string-replace-with-object": "^1.0.0"
   },
