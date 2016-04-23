@@ -152,6 +152,8 @@ console.log('Hello Taco Bell')
 
 ## Misc. Usage
 
+### Custom Template Directory
+
 If the `pages` directory name conflicts with the project structure, paperback may be told where to look for templates via:
 
 ```bash
