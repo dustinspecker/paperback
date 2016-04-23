@@ -160,5 +160,24 @@ If the `pages` directory name conflicts with the project structure, paperback ma
 paperback components/__name__ --template-path=templates/go/here
 ```
 
+### Providing Prompt Answers via CLI
+
+Prompt answers may be passed via `paperback` command. For example, given a `prompts.js` of
+
+```javascript
+module.exports = [
+  {
+    name: "name",
+    message: "What is the name?"
+  },
+  {
+    name: "greeting",
+    message: "What is the greeting?"
+  }
+]
+```
+
+and `paperback` is invoked like `paperback components/__name__ --name Dustin` then `paperback` will not ask the name question, but will still ask the greeting question. The value provided with the name flag will be the assumed answer.
+
 ## LICENSE
 MIT © [Dustin Specker](https://github.com/dustinspecker)
