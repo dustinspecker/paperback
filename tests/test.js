@@ -15,6 +15,44 @@ test('it rejects error when require fails to find prompts.js', async t =>
     })
 )
 
+test('it displays available pages when templateDir is not passed', async t => {
+  const mockedPaperback = proxyquire('../lib', {
+    inquirer: {
+      prompt([question]) {
+        const expectedChoices = [
+          '__name__',
+          '__name__/component',
+          '__yolo__'
+        ].map(path => ({
+          name: path,
+          value: path
+        }))
+
+        t.deepEqual(question.choices, expectedChoices)
+
+        return Promise.resolve({templateDir: '__name__'})
+      }
+    },
+    'recursive-readdir'(path, cb) {
+      t.truthy(path === 'some_dir/pages')
+
+      const files = [
+        'some_dir/pages/__yolo__/prompts.js',
+        'some_dir/pages/__name__/prompts.js',
+        'some_dir/pages/__name__/template.js',
+        'some_dir/pages/__name__/component/prompts.js'
+      ]
+
+      cb(null, files)
+    }
+  })
+
+  return mockedPaperback('./some_dir', undefined)
+    .catch(err => {
+      t.truthy(err.message, 'Could not find prompts.js in some_dir/pages/__name__')
+    })
+})
+
 test('it generates file and support passing answers through CLI', async t => {
   t.plan(7)
 

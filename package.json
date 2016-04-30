@@ -70,6 +70,7 @@
     "mkdirp": "^0.5.1",
     "object-assign": "^4.0.1",
     "pify": "^2.3.0",
+    "recursive-readdir": "^2.0.0",
     "string-replace-with-object": "^1.0.0"
   },
   "config": {

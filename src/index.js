@@ -1,12 +1,13 @@
 'use strict'
 import _ from 'lodash'
+import {basename, dirname, join, sep} from 'path'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
-import {join} from 'path'
 import mkdirp from 'mkdirp'
 import objectAssign from 'object-assign'
 import pify from 'pify'
 import {readdir, readFile, writeFile} from 'fs'
+import recursiveReaddir from 'recursive-readdir'
 import stringReplaceWithObject from 'string-replace-with-object'
 
 /**
@@ -31,6 +32,36 @@ const loadPromptsFile = promptsFileDir => {
 }
 
 /**
+ * Ask user for template directory
+ *
+ * @param {String} pagesDirectory - directory to find available pages
+ * @return {Promise<String>} - templateDir to use
+ */
+const promptForTemplateDir = pagesDirectory =>
+  pify(recursiveReaddir)(pagesDirectory)
+    .then(files =>
+      files
+        .filter(file => basename(file) === 'prompts.js')
+        .map(promptFile => dirname(promptFile).replace(`${pagesDirectory}${sep}`, ''))
+        .sort()
+        .map(availablePage => ({
+          name: availablePage,
+          value: availablePage
+        }))
+    )
+    .then(prompts => {
+      const question = {
+        name: 'templateDir',
+        type: 'list',
+        message: 'Which page should be generated?',
+        choices: prompts
+      }
+
+      return inquirer.prompt([question])
+    })
+    .then(({templateDir}) => templateDir)
+
+/**
  * Generate a file from a template after asking questions
  *
  * @param {String} cwd - the directory to look for the templatePath
@@ -42,11 +73,19 @@ const loadPromptsFile = promptsFileDir => {
 module.exports = (cwd, templateDir, options = {}) => {
   const templatePath = options.templatePath || 'pages'
 
-  let answers = {}
+  let resolvedTemplateDir = templateDir
+    , answers = {}
     , files = []
 
+  const getTemplateDir = templateDir ? Promise.resolve(templateDir) : promptForTemplateDir(join(cwd, templatePath))
+
   // ask questions from prompts.js
-  return loadPromptsFile(join(cwd, templatePath, templateDir))
+  return getTemplateDir
+    .then(selectedTemplateDir => {
+      resolvedTemplateDir = selectedTemplateDir
+
+      return loadPromptsFile(join(cwd, templatePath, resolvedTemplateDir))
+    })
     .then(questions => {
       const unansweredQuestions =
         questions
@@ -59,21 +98,21 @@ module.exports = (cwd, templateDir, options = {}) => {
     .then(promptResults => {
       answers = objectAssign(promptResults, options)
 
-      return pify(mkdirp)(stringReplaceWithObject(templateDir, answers, '__'))
+      return pify(mkdirp)(stringReplaceWithObject(resolvedTemplateDir, answers, '__'))
     })
-    .then(() => pify(readdir)(join(cwd, templatePath, templateDir)))
+    .then(() => pify(readdir)(join(cwd, templatePath, resolvedTemplateDir)))
     .then(fileNames => {
       files = fileNames.filter(fileName => fileName !== 'prompts.js')
 
       return Promise.all(files.map(fileName =>
-        pify(readFile)(join(cwd, templatePath, templateDir, fileName))
+        pify(readFile)(join(cwd, templatePath, resolvedTemplateDir, fileName))
       ))
     })
     .then(tempFiles =>
       // complete templated file and write
       Promise.all(tempFiles.map((tempFile, index) => {
         const contents = _.template(tempFile.toString())(answers)
-        const filePath = stringReplaceWithObject(templateDir, answers, '__')
+        const filePath = stringReplaceWithObject(resolvedTemplateDir, answers, '__')
         const fileName = stringReplaceWithObject(files[index], answers, '__')
         const fullPath = join(cwd, filePath, fileName)
         console.log(`${chalk.green('Created')} ${fullPath}`)
