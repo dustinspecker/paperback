@@ -105,6 +105,8 @@ Later on after answering inquirer questions, paperback will know what to provide
 paperback components/__name__
 ```
 
+**Note: `paperback` may be ran without passing a page to generate. paperback will then ask the user to select which page to load.**
+
 [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0) asks questions...
 ```bash
 What is the component name? hello-world
