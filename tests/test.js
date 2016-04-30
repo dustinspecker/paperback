@@ -11,7 +11,7 @@ import paperback from '../lib'
 test('it rejects error when require fails to find prompts.js', async t =>
   paperback('some_dir', 'hi')
     .catch(err => {
-      t.truthy(err.message, 'Could not find prompts.js in some_dir/pages/hi')
+      t.truthy(err.message === 'Could not find prompts.js in some_dir/pages/hi')
     })
 )
 
@@ -23,11 +23,11 @@ test('it generates file and support passing answers through CLI', async t => {
   const mockedPaperback = proxyquire('../lib/', {
     fs: {
       readdir(path, cb) {
-        t.truthy(path, join('some_dir', 'pages', '__name__'))
+        t.truthy(path === join('some_dir', 'pages', '__name__'))
         cb(null, ['__name____name__-component.js', 'prompts.js'])
       },
       readFile(path, cb) {
-        t.truthy(path, join('some_dir', 'pages', '__name__', '__name____name__-component.js'))
+        t.truthy(path === join('some_dir', 'pages', '__name__', '__name____name__-component.js'))
         cb(null, {
           toString() {
             return 'Hello <%= name %>! <%= thisIsAnsweredViaCLI %>'
@@ -35,8 +35,8 @@ test('it generates file and support passing answers through CLI', async t => {
         })
       },
       writeFile(path, contents, cb) {
-        t.truthy(path, 'some_dir/dog/dogdog-component.js')
-        t.truthy(contents, 'Hello dog! hello')
+        t.truthy(path === 'some_dir/dog/dogdog-component.js')
+        t.truthy(contents === 'Hello dog! hello')
         cb(null)
       }
     },
@@ -48,7 +48,7 @@ test('it generates file and support passing answers through CLI', async t => {
       }
     },
     mkdirp(path, cb) {
-      t.truthy(path, 'dog')
+      t.truthy(path === 'dog')
       cb(null)
     }
   })
@@ -66,7 +66,7 @@ test('it resolves template path with cwd', async t => {
 
   return paperback('./some_dir', '__name__', {templatePath: '../template-stuff'})
     .catch(err => {
-      t.truthy(err.message, 'Could not find prompts.js in template-stuff/__name__')
+      t.truthy(err.message === 'Could not find prompts.js in template-stuff/__name__')
     })
 })
 
@@ -75,7 +75,7 @@ test('it supports --template-path option', async t => {
 
   return paperback('./some_dir', '__name__', {templatePath: 'template-stuff'})
     .catch(err => {
-      t.truthy(err.message, 'Could not find prompts.js in some_dir/template-stuff/__name__')
+      t.truthy(err.message === 'Could not find prompts.js in some_dir/template-stuff/__name__')
     })
 })
 
@@ -85,6 +85,6 @@ test('it rejects with prompts.js not found', async t => {
   try {
     await paperback('./some_dir', '__name__')
   } catch (err) {
-    t.truthy(err.message, 'Could not find prompts.js in some_dir/pages/__name__')
+    t.truthy(err.message === 'Could not find prompts.js in some_dir/pages/__name__')
   }
 })
