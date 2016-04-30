@@ -10,6 +10,27 @@ import {readdir, readFile, writeFile} from 'fs'
 import stringReplaceWithObject from 'string-replace-with-object'
 
 /**
+ * Load a prompts file
+ *
+ * @param {String} promptsFileDir - directory to load prompts file from
+ * @return {Promise<Object[]>} - questions from prompts.js
+ */
+const loadPromptsFile = promptsFileDir => {
+  const promptsFilePath = join(promptsFileDir, 'prompts.js')
+
+  return Promise.resolve()
+    .then(() => {
+      try {
+        /* eslint-disable global-require */
+        return require(promptsFilePath)
+        /* eslint-enable global-require */
+      } catch (e) {
+        throw new Error(`Could not find prompts.js in ${promptsFileDir}`)
+      }
+    })
+}
+
+/**
  * Generate a file from a template after asking questions
  *
  * @param {String} cwd - the directory to look for the templatePath
@@ -25,23 +46,10 @@ module.exports = (cwd, templateDir, options = {}) => {
     , files = []
 
   // ask questions from prompts.js
-  return Promise.resolve()
-    .then(() => {
-      // create promptsFile path
-      const promptsDir = join(cwd, templatePath, templateDir)
-      const promptsFile = join(promptsDir, 'prompts.js')
-
-      let promptsModule
-      try {
-        /* eslint-disable global-require */
-        promptsModule = require(promptsFile)
-        /* eslint-enable global-require */
-      } catch (e) {
-        throw new Error(`Could not find prompts.js in ${promptsDir}`)
-      }
-
+  return loadPromptsFile(join(cwd, templatePath, templateDir))
+    .then(questions => {
       const unansweredQuestions =
-        promptsModule
+        questions
           .filter(question =>
             Object.keys(options).indexOf(question.name) === -1
           )
