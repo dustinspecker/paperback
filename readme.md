@@ -22,6 +22,10 @@ npm install --global paperback
 
 Create your own templates. Answer questions about the templates via [inquirer](https://github.com/SBoudrias/Inquirer.js/tree/v0.12.0). Generate those templates with the power of [lodash](https://lodash.com/docs#template).
 
+## Example
+
+An example repository may be found at [dustinspecker/paperback-example](https://github.com/dustinspecker/paperback-example).
+
 ## Usage
 ### 1. Starting with a project such as:
 ```
