@@ -47,7 +47,7 @@
     "eslint-plugin-xo": "^0.4.0",
     "nyc": "^6.1.1",
     "proxyquire": "^1.7.4",
-    "semantic-release": "^4.3.5"
+    "semantic-release": "^6.3.2"
   },
   "ava": {
     "files": [
